@@ -49,6 +49,11 @@
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">Свяжитесь с нами</h4>
                 </div>
+                  {% if success_message %}
+                    <div class="alert alert-success" role="alert">
+                        {{ success_message }}
+                    </div>
+                  {% endif %}
                 <div class="card-body">
                     <form method="post" action="" class="form-floating">
                         {% csrf_token %}
