@@ -20,12 +20,14 @@ class Product(models.Model):
         verbose_name='Фото',
         help_text='Загрузите фото продукта'
     )
-    category = models.CharField(
-        max_length=100,
+    category = models.ForeignKey(
+        "Category",
+        on_delete=models.SET_NULL,
         verbose_name='Категория',
         help_text='Введите категорию продукта',
         blank=True,
-        null=True
+        null=True,
+        related_name="products"
     )
     price = models.DecimalField(
         max_digits=10,
