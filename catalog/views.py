@@ -12,5 +12,5 @@ def contacts(request):
     return render(request, 'contacts.html')
 
 
-def product(request):
-    return render(request, 'product.html')
+def product_iphone(request):
+    return render(request, 'product_iphone.html')
