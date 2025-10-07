@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,13 +28,20 @@
 
 <div class="container">
     <div class="row text-center">
+        {% for product in products %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                {% else %}
+                <img src="{% static 'images/no_image_available.jpg' %}" class="card-img-top img-fluid"
+                     alt="Нет изображения">
+                {% endif %}
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Удобный сервис рассылок</h4>
+                    <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
                 </div>
                 <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$ 140</h1>
+                    <h1 class="card-title pricing-card-title">{{ product.price }}</h1>
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         <li>- Неограниченная лицензия</li>
                         <li>- Поддержка</li>
@@ -44,6 +52,7 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
