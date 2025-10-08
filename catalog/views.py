@@ -18,7 +18,7 @@ def contacts(request):
 def index(request):
     products = Product.objects.all()
     context = {"products": products}
-    return render(request, 'base.html', context)
+    return render(request, 'extends/product_list.html', context)
 
 
 def product_iphone(request, pk):
