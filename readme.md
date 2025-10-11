@@ -20,7 +20,12 @@ online_store_pt/
 │ ├── migrations/ # Миграции БД
 │ ├── templates/ # HTML-шаблоны приложения
 │ │ ├── contacts.html
+│ │ ├── base.html
+│ │ ├── product_detail.html
+│ │ ├── product_list.html
 │ │ └── home.html
+│ │  ├──includes/ # HTML-подшаблоны
+│   │   │   └── inc_menu.html
 │ ├── admin.py
 │ ├── apps.py
 │ ├── models.py
@@ -46,10 +51,18 @@ online_store_pt/
 - Настроена маршрутизация для приложения.  
 - Подготовлены HTML-шаблоны:
   - `home.html`
-  - `contacts.html`  
+  - `contacts.html` 
+  - `base.html`
+  - `product_detail.html`
+  - `product_list.html`
+- Подготовлены HTML-подшаблоны:
+  - `inc_menu.html`
 - Реализованы контроллеры для отображения страниц.  
 - Настроена обработка данных формы в контроллере:
   - при успешной отправке формы отображается сообщение об успехе.
+- Главная страница (/home/) — список товаров с изображением, именем и кратким описанием (до 100 символов).
+- Страница контактов (/contacts/)
+- Страница отдельного товара (/product/<pk>/) — полное описание и изображение конкретного товара.
 
 ---
 
