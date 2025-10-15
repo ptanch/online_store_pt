@@ -12,7 +12,7 @@ class Blog(models.Model):
     class Meta:
         verbose_name = 'блог'
         verbose_name_plural = 'блоги'
-        ordering = ['name', 'creation_date']
+        ordering = ['title', 'creation_date']
 
     def __str__(self):
         return self.name
