@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
+from django.views.generic import ListView
+
 from catalog.models import Product
 
 
-def home(request):
-    products = Product.objects.all()
-    context = {"products": products}
-    return render(request, 'home.html', context)
+class ProductListView(ListView):
+    model = Product
+    #  catalog/product_list.html
 
 
 def contacts(request):
