@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Blog(models.Model):
+    """Класс для представления блога"""
     title = models.CharField(max_length=200, verbose_name='Заголовок')
     content = models.TextField(verbose_name='Содержимое', blank=True, null=True)
     preview = models.ImageField(upload_to='blog/photo', blank=True, null=True, verbose_name='Предварительный просмотр',)
