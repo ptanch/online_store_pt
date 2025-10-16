@@ -16,4 +16,4 @@ class Blog(models.Model):
         ordering = ['title', 'creation_date']
 
     def __str__(self):
-        return self.name
+        return self.title
