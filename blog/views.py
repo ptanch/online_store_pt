@@ -12,6 +12,10 @@ class BlogCreateView(CreateView):
 class BlogListView(ListView):
     model = Blog
 
+    def get_queryset(self):
+        """Фильтрация опубликованных статей"""
+        return Blog.objects.filter(is_published=True)
+
 
 class BlogDetailView(DetailView):
     model = Blog
@@ -19,7 +23,7 @@ class BlogDetailView(DetailView):
     context_object_name = 'blog'
 
     def get_object(self, queryset=None):
-        """Переопределение метода, чтобы увеличить счётчик просмотров"""
+        """Увеличение счётчика просмотров"""
         obj = super().get_object(queryset)
         obj.views_number += 1
         obj.save(update_fields=['views_number'])
@@ -32,6 +36,7 @@ class BlogUpdateView(UpdateView):
     success_url = reverse_lazy('blog:blog_list')
 
     def get_success_url(self):
+        """Перенаправление пользователя после редактирования"""
         return reverse('blog:blog_detail', args=[self.kwargs.get('pk')])
 
 
