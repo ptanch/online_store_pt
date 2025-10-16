@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ blog.title }}{% endblock %}
+
+{% block content %}
+<article class="mb-5">
+    <h2>{{ blog.title }}</h2>
+    <p class="text-muted small">
+        {{ blog.creation_date|date:"d.m.Y H:i" }} |
+        👁 {{ blog.views_number }} просмотров
+    </p>
+    {% if blog.preview %}
+        <img src="{{ blog.preview.url }}" alt="{{ blog.title }}" class="img-fluid rounded mb-3">
+    {% endif %}
+    <div class="fs-5" style="white-space: pre-line;">{{ blog.content }}</div>
+</article>
+
+<div class="d-flex gap-2">
+    <a href="{% url 'blog:blog_update' blog.pk %}" class="btn btn-warning btn-sm">Редактировать</a>
+    <a href="{% url 'blog:blog_delete' blog.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+    <a href="{% url 'blog:blog_list' %}" class="btn btn-secondary btn-sm">Назад к списку</a>
+</div>
+{% endblock %}
