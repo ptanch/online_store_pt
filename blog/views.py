@@ -1,16 +1,16 @@
 from blog.models import Blog
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView
-
-
-class BlogListView(ListView):
-    model = Blog
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
 
 class BlogCreateView(CreateView):
     model = Blog
     fields = ("title", "content", "preview", "creation_date", "is_published", "views_number")
     success_url = reverse_lazy('blog:blog_list')
+
+
+class BlogListView(ListView):
+    model = Blog
 
 
 class BlogDetailView(DetailView):
@@ -24,3 +24,14 @@ class BlogDetailView(DetailView):
         obj.views_number += 1
         obj.save(update_fields=['views_number'])
         return obj
+
+
+class BlogUpdateView(UpdateView):
+    model = Blog
+    fields = ("title", "content", "preview", "creation_date", "is_published", "views_number")
+    success_url = reverse_lazy('blog:blog_list')
+
+
+class BlogDeleteView(DeleteView):
+    model = Blog
+    success_url = reverse_lazy('blog:blog_list')
