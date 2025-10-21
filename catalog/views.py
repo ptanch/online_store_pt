@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView, TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 
+from catalog.forms import ProductForm
 from catalog.models import Product
 
 
@@ -18,12 +20,25 @@ class ContactsView(TemplateView):
         context["success_message"] = "Данные успешно отправлены"
         return self.render_to_response(context)
 
-# def contacts(request):
-#     if request.method == 'POST':
-#         return render(request, 'contacts.html',{"success_message": "Данные успешно отправлены"})
-#     return render(request, 'contacts.html')
-
 
 class ProductDetailView(DetailView):
     model = Product
     #  catalog/product_detail.html
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:product_create')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:product_list.html')
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:product_list.html')
