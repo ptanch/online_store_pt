@@ -1,17 +1,27 @@
-from django.forms import ModelForm
+from django import forms
 from catalog.models import Product
 from django.core.exceptions import ValidationError
 
 
-class ProductForm(ModelForm):
+class ProductForm(forms.ModelForm):
+    """Форма для создания и редактирования продуктов"""
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = ['name', 'description', 'price', 'is_available', 'photo']
 
     FORBIDDEN_WORDS = (
         'казино', 'криптовалюта', 'крипта', 'биржа',
         'дешево', 'бесплатно', 'обман', 'полиция', 'радар'
 )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.CheckboxInput):
+                field.widget.attrs.update({'class': 'form-check-input'})
+            else:
+                field.widget.attrs.update({'class': 'form-control'})
 
     def _validate_forbidden_words(self, field_value, field_label):
         """
@@ -36,19 +46,25 @@ class ProductForm(ModelForm):
 
     @ staticmethod
     def _validate_price(price):
+        """Проверка корректности цены"""
         if price is None:
             raise ValidationError('Цена должна быть указана')
         if price <= 0:
             raise ValidationError('Цена не может быть меньше нуля')
 
     def clean(self):
+        """Общая проверка данных формы"""
         cleaned_data = super().clean()
-        name = cleaned_data.get('name')
-        description = cleaned_data.get('description')
+        name = cleaned_data.get('name', '')
+        description = cleaned_data.get('description', '')
         price = cleaned_data.get('price')
 
-        if price == 0 and ('бесплатно' in name.lower() or 'бесплатно' in description.lower()):
-            raise ValidationError('Если цена 0, не указывайте слово "бесплатно" — это и так очевидно.')
+        if price == 0 and (
+                'бесплатно' in name.lower() or 'бесплатно' in description.lower()
+        ):
+            raise ValidationError(
+                'Если цена 0, не указывайте слово "бесплатно" — это и так очевидно.'
+            )
 
         if price is not None:
             self._validate_price(price)
