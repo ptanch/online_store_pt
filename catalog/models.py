@@ -36,6 +36,8 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    is_available = models.BooleanField(default=True, verbose_name='В наличии')
+
     class Meta:
         """Описание параметров модели"""
 
