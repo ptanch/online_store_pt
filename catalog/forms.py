@@ -1,6 +1,10 @@
 from django import forms
+from django.forms import ModelForm
+
 from catalog.models import Product
 from django.core.exceptions import ValidationError
+
+from users.mixins import StyleFormMixin
 
 
 class ProductForm(forms.ModelForm):
@@ -70,3 +74,8 @@ class ProductForm(forms.ModelForm):
             self._validate_price(price)
 
         return cleaned_data
+
+class ProductModeratorForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Product
+        fields = ("description", "is_published")
