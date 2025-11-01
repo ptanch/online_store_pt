@@ -1,5 +1,7 @@
 from django.db import models
 
+from config import settings
+
 
 class Product(models.Model):
     """Класс для представления продукта"""
@@ -39,12 +41,25 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True, verbose_name='В наличии')
     is_published = models.BooleanField(default=False, verbose_name='Статус публикации')
 
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='products',
+        verbose_name="Владелец",
+        null=True,
+        blank=True
+    )
+
     class Meta:
         """Описание параметров модели"""
 
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ['name', 'category']
+        permissions = [
+            ("can_unpublish_product", "Can unpublish product"),
+            ("can_delete_product", "Can delete product")
+        ]
 
     def __str__(self):
         return self.name
