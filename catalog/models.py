@@ -37,6 +37,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     is_available = models.BooleanField(default=True, verbose_name='В наличии')
+    is_published = models.BooleanField(default=False, verbose_name='Статус публикации')
 
     class Meta:
         """Описание параметров модели"""
