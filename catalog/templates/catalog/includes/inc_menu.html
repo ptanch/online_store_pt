@@ -8,20 +8,8 @@
             <h5>Категории</h5>
             <ul class="list-unstyled text-small">
                 <li><a class="text-muted" href="#">Магазины</a></li>
-                {% if user.is_authenticated %}
-                <li>
-                    <form method="post" action="{% url 'users:logout' %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="text-muted"
-                                style="border:none; background:none; padding:0; cursor:pointer;">
-                            Выход
-                        </button>
-                    </form>
-                </li>
-                {% else %}
-                <li><a class="text-muted" href="{% url 'users:login' %}">Вход</a></li>
-                <li><a class="text-muted" href="{% url 'users:register' %}">Зарегистрироваться</a></li>
-                {% endif %}
+                <li><a class="text-muted" href="#">Сервисные центры</a></li>
+                <li><a class="text-muted" href="#">Trade-in</a></li>
                 <li><a class="text-muted" href="#">Акции</a></li>
                 <li><a class="text-muted" href="#">Бонусная программа</a></li>
             </ul>
