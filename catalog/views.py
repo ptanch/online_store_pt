@@ -12,12 +12,15 @@ from django.views.generic import (
 
 from catalog.forms import ProductForm, ProductModeratorForm
 from catalog.models import Product
+from catalog.services import get_products_from_cache
 
 
 class ProductListView(ListView):
     """Общедоступный список товаров"""
     model = Product
-    #  catalog/product_list.html
+
+    def get_queryset(self):
+        return get_products_from_cache()
 
 
 class ContactsView(TemplateView):
