@@ -1,0 +1,28 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Продукты категории "{{ category.name }}"</h2>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    {% if product.photo %}
+                        <img src="{{ product.photo.url }}" class="card-img-top" alt="{{ object.name }}">
+                    {% else %}
+                        <img src="{% static 'images/no_image_available.jpg' %}" class="card-img-top" alt="Нет изображения">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                        <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-outline-primary btn-sm">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">В этой категории пока нет продуктов.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
