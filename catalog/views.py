@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
@@ -11,13 +12,16 @@ from django.views.generic import (
 )
 
 from catalog.forms import ProductForm, ProductModeratorForm
-from catalog.models import Product
+from catalog.models import Product, Category
+from catalog.services import get_products_from_cache, get_products_by_category
 
 
 class ProductListView(ListView):
     """Общедоступный список товаров"""
     model = Product
-    #  catalog/product_list.html
+
+    def get_queryset(self):
+        return get_products_from_cache()
 
 
 class ContactsView(TemplateView):
@@ -79,3 +83,19 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
             return super().dispatch(request, *args, **kwargs)
 
         raise PermissionDenied("Вы не можете удалить этот продукт.")
+
+
+class ProductsByCategoryView(ListView):
+    """Отображает список продуктов выбранной категории"""
+    template_name = 'catalog/products_by_category.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        category_id = self.kwargs['category_id']
+        return get_products_by_category(category_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = get_object_or_404(Category, pk=self.kwargs['category_id'])
+        context['category'] = category
+        return context
